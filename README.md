@@ -19,6 +19,7 @@ printf("at line %d, column %d: %s\n",
  * Compatible with C99
  * Works directly on JSON strings, use with any JSON parsing library
  * Easy integration - single .c and .h file
+ * Reasonably performant - scans a large JSON at ~1.25GBps on my Macbook Air M1
  * No dependencies except stdint.h and stddef.h
  * No dynamic allocations, value decoding, or recursion
  * Supports unicode characters in object keys
@@ -105,6 +106,23 @@ cmake --build . --config Release
 ```
 
 And run the `json-pointer-loc-test` executable.
+
+## Running Benchmarks
+The nanobench and test data sub-repositories must be initialized:
+```
+git submodule update --init --recursive
+```
+
+Then, build the benchmark project using CMake
+```
+cd bench
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . --config Release
+```
+
+And run the `json-pointer-loc-bench` executable.
 
 ## License
 This library is MIT licensed.

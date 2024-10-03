@@ -1,3 +1,9 @@
 [submodule "test/munit"]
 	path = test/munit
 	url = https://github.com/nemequ/munit.git
+[submodule "bench/sf-city-lots-json"]
+	path = bench/sf-city-lots-json
+	url = https://github.com/zemirco/sf-city-lots-json
+[submodule "bench/nanobench"]
+	path = bench/nanobench
+	url = https://github.com/martinus/nanobench.git
