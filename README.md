@@ -14,6 +14,9 @@ printf("at line %d, column %d: %s\n",
     message);
 ```
 
+## Try it out
+[WebAssembly Demo](https://parkertomatoes.github.io/json-pointer-loc/)
+
 ## Features
  * Finds line and column numbers for elements in a JSON document
  * Compatible with C99
