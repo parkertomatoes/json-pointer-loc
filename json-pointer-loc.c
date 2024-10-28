@@ -254,10 +254,6 @@ static const char* skip_member_name(const char* sptr, const char* send, size_t* 
     return skip_whitespace(sptr, send, lc); // Skip whitespace between ':' and value
 }
 
-static inline int is_hex(char c) {
-    return (c >= '0' && c <= '9') || (c >= 'a' && c < 'f') || (c >= 'A' && c <= 'F');
-}
-
 static inline int is_unicode(char c) {
     return (unsigned char)c >= 0x80;
 }
@@ -278,14 +274,24 @@ static inline int is_simple_ptr(char c) {
     return !is_unicode(c) && !is_ptr_escape(c);
 }
 
+static inline unsigned long hex_to_ulong(const char c) {
+    if (c >= '0' && c <= '9')
+        return c - '0';
+        
+    if (c >= 'A' && c <= 'F')
+        return c - 'A' + 10;
+
+    if (c >= 'a' && c <= 'f')
+        return c - 'a' + 10;
+    
+    return 0;
+}
+
 static inline unsigned long decode_hex_quad(const char* c) {
-    char hex[5];
-    hex[0] = c[0];
-    hex[1] = c[1];
-    hex[2] = c[2];
-    hex[3] = c[3];
-    hex[4] = '\0';
-    return strtol(hex, NULL, 16);
+    return (hex_to_ulong(c[0]) << 12) |
+           (hex_to_ulong(c[1]) << 8) |
+           (hex_to_ulong(c[2]) << 4) |
+            hex_to_ulong(c[3]);
 }
 
 /* -- UTF-8 decoder -- */
@@ -609,7 +615,6 @@ int json_pointern_loc(
         pptr++; // Skip '/'
 
         // Read next JSON token to determine type
-        int result;
         switch (*sptr) {
             case '{':
                 sptr++; // Skip '{'
